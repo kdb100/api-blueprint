@@ -1,0 +1,2 @@
+aglio --theme-variables flatly --theme-template triple -i /Library/WebServer/Documents/blueprint-course/api-blueprint.apib -o /Library/WebSer
+ver/Documents/blueprint-course/index.html
