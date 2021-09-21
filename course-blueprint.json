@@ -1,0 +1,1735 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [
+      {
+        "name": "FORMAT",
+        "value": "1A"
+      },
+      {
+        "name": "HOST",
+        "value": "https://api.example.com"
+      }
+    ],
+    "name": "API Title",
+    "description": "[Markdown](http://daringfireball.net/projects/markdown/syntax) **formatted** description.\n\n## Subtitle\n\nAlso Markdown *formatted*. This also includes automatic \"smartypants\" formatting -- hooray!\n\n> \"A quote from another time and place\"\nAnother paragraph. Code sample:\n\n```http\nAuthorization: bearer 5262d64b892e8d4341000001\n```\n\nAnd some code with no highlighting:\n\n```no-highlight\nFoo bar baz\n```\n\n1. A list\n\n2. Of items\n\n3. Can be\n\n4. Very useful\n\nHere is a table:\n\nID | Name | Description\n--:| ---- | -----------\n 1 | Foo  | I am a foo.\n 8 | Bar  | I am a bar.\n15 | Baz  | I am a baz.\n\n::: note\n\n## Extensions\n\nSome non-standard Markdown extensions are also supported, such as this informational container, which can also contain **formatting**. Features include:\n\n* Informational block fenced with `::: note` and `:::`\n\n* Warning block fenced with `::: warning` and `:::`\n\n* [x] GitHub-style checkboxes using `[x]` and `[ ]`\n\n* Emoji support :smile: :ship: :cake: using `:smile:` ([cheat sheet](http://www.emoji-cheat-sheet.com/))\n\nThese extensions may change in the future as the [CommonMark specification](http://spec.commonmark.org/) defines a [standard extension syntax](https://github.com/jgm/CommonMark/wiki/Proposed-Extensions).\n:::\n\n<!-- include(example-include.md) -->",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "Notes",
+        "description": "Group description (also with *Markdown*)\n\n## Important Info\n\nDescriptions may also contain sub-headings and **more Markdown**.",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Note List",
+            "description": "Note list description\n\n+ Even\n\n+ More\n\n+ Markdown",
+            "uriTemplate": "/notes",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Get Notes",
+                "description": "Get a list of notes.",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Grocery list\",\n    \"body\": \"Buy milk\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteList"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create New Note",
+                "description": "Create a new note using a title and an optional content body.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "with body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"My new note\",\n    \"body\": \"This is the body\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"My new note\",\n    \"body\": \"This is the body\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "400",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Invalid title\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Invalid title\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "without body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"My new note\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"My new note\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "400",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Invalid title\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Invalid title\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Note",
+            "description": "Note description",
+            "uriTemplate": "/notes/{id}{?body}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "The note ID",
+                "type": "string",
+                "required": true,
+                "default": "",
+                "example": "68a5sdf67",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get Note",
+                "description": "Get a single note.",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "body",
+                    "description": "Set to `false` to exclude note body content.",
+                    "type": "boolean",
+                    "required": true,
+                    "default": "",
+                    "example": "false",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update a Note",
+                "description": "Update a single note by setting the title and/or body.\n\n::: warning\n\n#### <i class=\"fa fa-warning\"></i> Caution\n\nIf the value for `title` or `body` is `null` or `undefined`, then the corresponding value is not modified on the server. However, if you send an empty string instead then it will **permanently overwrite** the original value.\n:::",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"Grocery List (Safeway)\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"Grocery List (Safeway)\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "delete body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"body\": \"\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"body\": \"\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete a Note",
+                "description": "Delete a single note",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "Users",
+        "description": "Group description",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "User List",
+            "description": "A list of users",
+            "uriTemplate": "/users{?name,joinedBefore,joinedAfter,sort,limit}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "name",
+                "description": "Search for a user by name",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "alice",
+                "values": []
+              },
+              {
+                "name": "joinedBefore",
+                "description": "Search by join date",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "2011-01-01",
+                "values": []
+              },
+              {
+                "name": "joinedAfter",
+                "description": "Search by join date",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "2011-01-01",
+                "values": []
+              },
+              {
+                "name": "sort",
+                "description": "Which field to sort by",
+                "type": "string",
+                "required": false,
+                "default": "name",
+                "example": "joined",
+                "values": [
+                  {
+                    "value": "name"
+                  },
+                  {
+                    "value": "joined"
+                  },
+                  {
+                    "value": "-joined"
+                  },
+                  {
+                    "value": "age"
+                  },
+                  {
+                    "value": "-age"
+                  },
+                  {
+                    "value": "location"
+                  },
+                  {
+                    "value": "-location"
+                  },
+                  {
+                    "value": "plan"
+                  },
+                  {
+                    "value": "-plan"
+                  }
+                ]
+              },
+              {
+                "name": "limit",
+                "description": "The maximum number of users to return, up to `50`",
+                "type": "integer",
+                "required": false,
+                "default": "10",
+                "example": "25",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get users",
+                "description": "Get a list of users. Example:\n\n```no-highlight\nhttps://api.mywebsite.com/users?sort=joined&limit=5\n```",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    {\n        \"name\": \"alice\",\n        \"image\": \"http://example.com/alice.jpg\",\n        \"joined\": \"2013-11-01\"\n    },\n    {\n        \"name\": \"bob\",\n        \"image\": \"http://example.com/bob.jpg\",\n        \"joined\": \"2013-11-02\"\n    }\n]\n",
+                        "schema": "<!-- include(example-schema.json) -->\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    {\n        \"name\": \"alice\",\n        \"image\": \"http://example.com/alice.jpg\",\n        \"joined\": \"2013-11-01\"\n    },\n    {\n        \"name\": \"bob\",\n        \"image\": \"http://example.com/bob.jpg\",\n        \"joined\": \"2013-11-02\"\n    }\n]\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<!-- include(example-schema.json) -->\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "Tags and Tagging Long Title",
+        "description": "Get or set tags on notes",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/tags",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "Get a list of bars",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\"tag1\", \"tag2\", \"tag3\"]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\"tag1\", \"tag2\", \"tag3\"]\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Get one tag",
+            "description": "Get a single tag",
+            "uriTemplate": "/tags/{id}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "Unique tag identifier",
+                "type": "",
+                "required": true,
+                "default": "",
+                "example": "",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "NoteData"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": "Unique identifier"
+                    },
+                    "attributes": {
+                      "typeAttributes": [
+                        "required"
+                      ]
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
+                      },
+                      "value": {
+                        "element": "number",
+                        "content": 1
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": "Single line description"
+                    },
+                    "attributes": {
+                      "typeAttributes": [
+                        "required"
+                      ]
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "title"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "Grocery list"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": "Full description of the note which supports Markdown."
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "body"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "Buy milk"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "array",
+                "meta": {
+                  "id": "NoteList"
+                },
+                "content": [
+                  {
+                    "element": "NoteData"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Notes"
+        },
+        "content": [
+          {
+            "element": "copy",
+            "content": "Group description (also with *Markdown*)\n\n## Important Info\n\nDescriptions may also contain sub-headings and **more Markdown**."
+          },
+          {
+            "element": "resource",
+            "name": "Note List",
+            "description": "Note list description\n\n+ Even\n\n+ More\n\n+ Markdown",
+            "uriTemplate": "/notes",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Get Notes",
+                "description": "Get a list of notes.",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Grocery list\",\n    \"body\": \"Buy milk\"\n  }\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteList"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create New Note",
+                "description": "Create a new note using a title and an optional content body.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "with body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"My new note\",\n    \"body\": \"This is the body\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"My new note\",\n    \"body\": \"This is the body\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "400",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Invalid title\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Invalid title\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "without body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"My new note\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"My new note\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "400",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Invalid title\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Invalid title\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Note",
+            "description": "Note description",
+            "uriTemplate": "/notes/{id}{?body}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "The note ID",
+                "type": "string",
+                "required": true,
+                "default": "",
+                "example": "68a5sdf67",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get Note",
+                "description": "Get a single note.",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "body",
+                    "description": "Set to `false` to exclude note body content.",
+                    "type": "boolean",
+                    "required": true,
+                    "default": "",
+                    "example": "false",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update a Note",
+                "description": "Update a single note by setting the title and/or body.\n\n::: warning\n\n#### <i class=\"fa fa-warning\"></i> Caution\n\nIf the value for `title` or `body` is `null` or `undefined`, then the corresponding value is not modified on the server. However, if you send an empty string instead then it will **permanently overwrite** the original value.\n:::",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"title\": \"Grocery List (Safeway)\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"title\": \"Grocery List (Safeway)\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "delete body",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"body\": \"\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"body\": \"\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n  \"id\": 1,\n  \"title\": \"Grocery list\",\n  \"body\": \"Buy milk\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"Unique identifier\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Single line description\"\n    },\n    \"body\": {\n      \"type\": \"string\",\n      \"description\": \"Full description of the note which supports Markdown.\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"title\"\n  ]\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "NoteData"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete a Note",
+                "description": "Delete a single note",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "404",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-Request-ID",
+                            "value": "f72fc914"
+                          },
+                          {
+                            "name": "X-Response-Time",
+                            "value": "4ms"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"Note not found\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"Note not found\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Users"
+        },
+        "content": [
+          {
+            "element": "copy",
+            "content": "Group description"
+          },
+          {
+            "element": "resource",
+            "name": "User List",
+            "description": "A list of users",
+            "uriTemplate": "/users{?name,joinedBefore,joinedAfter,sort,limit}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "name",
+                "description": "Search for a user by name",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "alice",
+                "values": []
+              },
+              {
+                "name": "joinedBefore",
+                "description": "Search by join date",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "2011-01-01",
+                "values": []
+              },
+              {
+                "name": "joinedAfter",
+                "description": "Search by join date",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "2011-01-01",
+                "values": []
+              },
+              {
+                "name": "sort",
+                "description": "Which field to sort by",
+                "type": "string",
+                "required": false,
+                "default": "name",
+                "example": "joined",
+                "values": [
+                  {
+                    "value": "name"
+                  },
+                  {
+                    "value": "joined"
+                  },
+                  {
+                    "value": "-joined"
+                  },
+                  {
+                    "value": "age"
+                  },
+                  {
+                    "value": "-age"
+                  },
+                  {
+                    "value": "location"
+                  },
+                  {
+                    "value": "-location"
+                  },
+                  {
+                    "value": "plan"
+                  },
+                  {
+                    "value": "-plan"
+                  }
+                ]
+              },
+              {
+                "name": "limit",
+                "description": "The maximum number of users to return, up to `50`",
+                "type": "integer",
+                "required": false,
+                "default": "10",
+                "example": "25",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get users",
+                "description": "Get a list of users. Example:\n\n```no-highlight\nhttps://api.mywebsite.com/users?sort=joined&limit=5\n```",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    {\n        \"name\": \"alice\",\n        \"image\": \"http://example.com/alice.jpg\",\n        \"joined\": \"2013-11-01\"\n    },\n    {\n        \"name\": \"bob\",\n        \"image\": \"http://example.com/bob.jpg\",\n        \"joined\": \"2013-11-02\"\n    }\n]\n",
+                        "schema": "<!-- include(example-schema.json) -->\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    {\n        \"name\": \"alice\",\n        \"image\": \"http://example.com/alice.jpg\",\n        \"joined\": \"2013-11-01\"\n    },\n    {\n        \"name\": \"bob\",\n        \"image\": \"http://example.com/bob.jpg\",\n        \"joined\": \"2013-11-02\"\n    }\n]\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<!-- include(example-schema.json) -->\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Tags and Tagging Long Title"
+        },
+        "content": [
+          {
+            "element": "copy",
+            "content": "Get or set tags on notes"
+          },
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/tags",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "Get a list of bars",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\"tag1\", \"tag2\", \"tag3\"]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\"tag1\", \"tag2\", \"tag3\"]\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Get one tag",
+            "description": "Get a single tag",
+            "uriTemplate": "/tags/{id}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "Unique tag identifier",
+                "type": "",
+                "required": true,
+                "default": "",
+                "example": "",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
+}
