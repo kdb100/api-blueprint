@@ -1,0 +1,2070 @@
+FORMAT: 1A
+HOST: https://recordskeeper.co/api/v1
+
+# RecordsKeeper's API
+This page describe the public APIs (Aplication Programing Interface) of [RecordsKeeper](https://recordskeeper.co), a Blockchain-based, peer-to-peer structured document storage.  
+
+### Introduction
+Using these APIs users can upload, download, verify the documents to & from the RecordsKeeper's Private Blockchain.
+
+### Authorization
+We use access token based authorization to access our APIs. You can access your API Key & API Secret from your RecordsKeeper's dashboard. API key & API secret will be used to get the access token which will be further used to access the resources.
+
+### API End points
+You are currently reading the RecordsKeeper's API V1. In this V1, we have two major API endpoints to access the resource from RecordsKeeper's Blockchain.
+
+**/access_token/**
+This endpoint can be used to do following actions:
+
+1. Get the access token
+2. Refresh the access token
+
+**/docs/**
+This endpoint can be used to do following actions:
+
+1. Upload the documents
+2. Delete the documents
+3. Download the documents
+4. Share the documents
+5. Verify the documents
+
+**/categories/**
+This endpoint can be used to do following actions:
+
+1. Add a category
+2. Update a category
+3. Delete a category
+4. View list of categories
+
+**/users/**
+This endpoint can be used to do following actions:
+
+1. Get user information
+2. Update user information
+
+::: note
+Please note that we are updating the APIs very rapidly hence it is recommended to refer the documents more frequestly.
+:::
+
+# Data Structures
+
+## DocumentData
++ id: 82cc921c6a5c6707e1d6e6862ba3201a (required, string) - Unique identifier
++ title: Alice Passport (required) - Name of the document
++ size: 1024 - Size of the document in bytes
+
+## DocumentList (array)
++ (DocumentData)
+
+# Group Access token
+This end point can be used to get the access token or refresh the access token which will be further used in all the resource access. 
+
+:::note
+## Important Info
+You can get your **api_key** & **api_secret** from the RecordsKeeper's dashboard.
+:::
+
+## Get access token [/access_token?api_key={api_key}&api_secret={api_secret}]
+This will allow you to get the access token using api_key & api_secret.
+
++ Parameters
+
+    + api_key: `77ebe286d925a470fwer215b57d8cdfc8abf9d810d5be53bc5da9458b5ccf2a0c78d0624021fa40e4f4d2393c9e7b809eaf0` (required, string) - The API Key of the user
+    + api_secret: `88as3f86d925a470fqop215b57d8cdfc8abf9d810d5be53bc5da9458b5ccf2a0c78d0624021fa40e4f4d2393c9e7b809eaf0` (required, string) - The API Secret of the user
+
+### Get access_token [GET]
+Get an access_token to further access the end points.
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:30:14 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "Access token issued",
+                                "request_id": "4060bae5f5a7d071000c"
+                                },
+                        "data": {
+                                "token": "eyJ0eXAiOiJKV1QiLJJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjM4MTQsImV4cCI6MTQ3ODMyNzQxNCwibmJmIjoxNDc4MzIzODE0LCJqdGkiOiIwMjMzMzdlZjBkYWM0M2E4OWQ4MDMyOGYwYmMwOGM0YiJ9.oXl0SO3pLSte414tb7XOLRhw5CZQDdEuCB0cZ3HymuA",
+                                "issued_at": 1478323814,
+                                "expires_at": 1478327414,
+                                "validity_in_seconds": 3600
+                                }
+                }
+
++ Response 401 (application/json)
+    If api_key or api_secret have incorrect values, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:39:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1401,
+                                "status": "error",
+                                "message": "Client not found",
+                                "request_id": "17b11d8a0f8be44e7231"
+                                }
+                }
+
++ Response 400 (application/json)
+    If required parameters are missing, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1400,
+                                "status": "error",
+                                "message": "API Key or API Secret is missing",
+                                "request_id": "f14eb5d084ec35ad95d0"
+                                }
+                }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }
+                
+
+## Refresh Access token [/access_token/refresh?token={token}]
+This will allow you to get the access token using api_key & api_secret.
+
++ Parameters
+
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+    
+### Refresh access_token [GET]
+Renew an existing access_token to further accessing the end points.
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:14 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "Access token refreshed",
+                                "request_id": "a29dbc795a3332943036"
+                        },
+                        "data": {
+                                "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW5cL3JlZnJlc2giLCJpYXQiOjE0NzgzMjE4MDQsImV4cCI6MTQ3ODMyNTQzMCwibmJmIjoxNDc4MzIxODMwLCJqdGkiOiJiY2RhODlhM2M5OGU2MzUzZjcxMzg0MDlmNTY4ZDU1OCJ9.pFxJD5AIZL6DSFGWHLEUQsaw6m5vWzhIWezN2yWq62U",
+                                "issued_at": 1478321830,
+                                "expires_at": 1478325430,
+                                "validity_in_seconds": 3600
+                        }
+                }
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:41:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "30a31e74b819874e98f0"
+                        }
+                }
+
++ Response 400 (application/json)
+    If required parameters are missing, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1400,
+                                "status": "error",
+                                "message": "Token is missing",
+                                "request_id": "24d862bb00fdf11cabc5"
+                                }
+                }  
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }
+                              
+
+# Group Docs
+This end point can be used to upload, download, share, verify the docuemnts to/from the RecordsKeeper's Blockchain. 
+:::note
+## Important Info
+Because we are storing documents in the Blockchain which is the append only distributed public ledger of the data/transaction & store everything immutably, you will not be able to edit or delete the documents. However, you can edit the name of the documents & other parameters associated with it. There is no possible way to edit or delete the documents once stored in the Blockchain. Please refer to the Immutable nature of the Blockchain [here](https://bitsonblocks.net/2016/02/29/a-gentle-introduction-to-immutability-of-blockchains/). 
+:::
+## Doc List [/docs?token={token}]
+This will allow you to perform actions relate to docs.
+
++ Parameters
+
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+
+### Get Docs [GET]
+Get a list of docs owned by the authorized user (you).
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "All documents for the user fetched successfully",
+                        "request_id": "52628e8d7bb6772a076b"
+                },
+                "data": [
+                                {
+                                        "doc_id": "683c51dc2dd99dda156a3a9687a944443cb72637444ad1ebce8c4aff38944f00f35fa14f3bc827d15abddd821c59a207bde9",
+                                        "title": "My PAN",
+                                        "size_in_bytes": 70960,
+                                        "doc_signature": "fe878b7dc2538d49f417b99ab8c2dc23",
+                                        "doc_status": "uploaded",
+                                        "doc_category": 
+                                                {
+                                                        "category_id": "2we33k2",
+                                                        "category_name": "Financial Doc"
+                                                }
+                                },
+                                {
+                                        "doc_id": "2a08946eb2f353cc40e1752b17f6979f90aaec2d435ddbf031e3c1acbc0cc2c59d3e9ca2d2c9ceb9005edcd831326e4477e8",
+                                        "title": "Alice Passport",
+                                        "size_in_bytes": 217746,
+                                        "doc_signature": "80d254e45bef5b08bc0ee44866882e2d",
+                                        "doc_status": "uploaded",
+                                        "doc_category": 
+                                                {
+                                                        "category_id": "s4d63k2",
+                                                        "category_name": "Photo ID"
+                                                }
+                                },
+                                {
+                                        "doc_id": "a039b78bc9c4c32a4f2502c56f94f1bacab3454dce381247aa86e198a78e47a77361259aab23f21a0239536e081f44183884",
+                                        "title": "My Driving License",
+                                        "size_in_bytes": 142458,
+                                        "doc_signature": "9ba9e6998568a99fff408c6df3cd35ab",
+                                        "doc_status": "processing",
+                                        "doc_category": 
+                                                {
+                                                        "category_id": "s4d63k2",
+                                                        "category_name": "Photo ID"
+                                                }
+                                }
+                        ]
+                }
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 400 (application/json)
+If required parameters are missing, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1400,
+                        "status": "error",
+                        "message": "Token is missing",
+                        "request_id": "11ee63a5c34c37e7d392"
+                }
+            }
+
++ Response 500 (application/json)
+On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }
+
+
+### Upload New Doc [POST]
+Upload a new doc using a title (name of the document, optional) and file as a post parameter. If title is missing file's name will be taken as a title.
+
+:::warning
+Request header shown here represent the parameters submitted as post parameters. You have to send two parameters **title** (optional) & **file** as post parameter.  
+:::
+
++ Request (multipart/form-data; boundary=---BOUNDARY)
+
+        -----BOUNDARY
+        Content-Disposition: form-data; name="file"; filename="Driving License.png"
+        Content-Type: image/png
+        Content-Transfer-Encoding: base64
+
+        /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+        HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+        MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+        AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+        AAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AL+AD//Z
+        -----BOUNDARY
+        
+        Content-Disposition: form-data; name="title";
+        Content-Type: text/plain
+        Alice - Driving License
+        -----BOUNDARY
+
+        Content-Disposition: form-data; name="category_id";
+        Content-Type: text/plain
+        s4d63k2
+        -----BOUNDARY       
+
++ Response 200
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "Document uploaded for processing successfully",
+                        "request_id": "3166b1e22116787615ac"
+                },
+                "data": {
+                                "doc_id": "8dfe517c2cab064aaa750e37b9cd0acff4fe817d2f62c1c91af9eeaa22c7abcc29110055d1fac0744ac7e3767cb0b700f248",
+                                "title": "Alice - Driving License",
+                                "size_in_bytes": 153317,
+                                "doc_signature": "3594cf636580f92687924361d1a1444e",
+                                "doc_status": "processing",
+                                "doc_category": 
+                                        {
+                                                "category_id": "s4d63k2",
+                                                "category_name": "Photo ID"
+                                        }
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 400 (application/json)
+    If required parameters are missing, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1400,
+                        "status": "error",
+                        "message": "Document file is missing",
+                        "request_id": "b9ce5cdff7ac50c0f77c"
+                }
+            }
+
++ Response 409 (application/json)
+    If same document is already uploaded, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1409,
+                        "status": "error",
+                        "message": "This document is already uploaded",
+                        "request_id": "1119197920013773fde9"
+                },
+                "data": {
+                                "doc_id": "a039b78bc9c4c32a4f2502c56f94f1bacab3454dce381247aa86e198a78e47a77361259aab23f21a0239536e081f44183884",
+                                "title": "Driving License.png",
+                                "size_in_bytes": 142458,
+                                "doc_signature": "9ba9e6998568a99fff408c6df3cd35ab",
+                                "doc_status": "available",
+                                "doc_category": 
+                                        {
+                                                "category_id": "s4d63k2",
+                                                "category_name": "Photo ID"
+                                        }
+                        }
+                }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+## Document Actions [/docs/{doc_id}?token={token}]
+Perform operation on document using the document id.
+
++ Parameters
+
+    + doc_id: `b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d` (required, string) - The doc ID
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+
+### Get document [GET]
+Fetch the single document's details from blockchain.
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 364
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+        
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "Document details fetched successfully",
+                                "request_id": "56b670b8087835587669"
+                        },
+                        "data": {
+                                "doc_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d",
+                                "title": "Passport.pdf",
+                                "size_in_bytes": 1688,
+                                "doc_signature": "61f900caafe099840d158fcaf4e48d32",
+                                "doc_status": "available",
+                                "doc_category": 
+                                        {
+                                                "category_id": "s4d63k2",
+                                                "category_name": "Photo ID"
+                                        }
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied document_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+
+### Update a Doc [PUT]
+Update the name of a single doc by setting the title.
+
+::: note
+#### <i class="fa fa-info"></i> Important
+Please remember that `title` is the only parameter which is updatable, Since the Blockchain store everything immutably you can not update the document. If you stil want to update the document, you have to upload the document again and move the older document to the trash. 
+:::
+
++ Request with title (application/x-www-form-urlencoded)
+    If you send request with the title
+    + Body
+
+            {
+                "title": "My First Passport",
+            }
+
++ Response 200 (application/json)
+   On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "Document details updated successfully",
+                                "request_id": "be4fa84ecc05f6a27779"
+                        },
+                        "data": {
+                                "doc_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d",
+                                "title": "My First Passport",
+                                "size_in_bytes": 1688,
+                                "doc_signature": "61f900caafe099840d158fcaf4e48d32",
+                                "doc_status": "available",
+                                "doc_category": 
+                                        {
+                                                "category_id": "s4d63k2",
+                                                "category_name": "Photo ID"
+                                        }
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied document_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
++ Request without title (application/x-www-form-urlencoded)
+    If you send request without specifying the title
+    + Body
+
+            {
+                
+            }
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 0,
+                                "status": "success",
+                                "message": "Nothing to update",
+                                "request_id": "28521c31857784192160"
+                        },
+                        "data": {
+                                "doc_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d",
+                                "title": "ahkajs",
+                                "size_in_bytes": 1688,
+                                "doc_signature": "61f900caafe099840d158fcaf4e48d32",
+                                "doc_status": "available",
+                                "doc_category": 
+                                        {
+                                                "category_id": "s4d63k2",
+                                                "category_name": "Photo ID"
+                                        }
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied document_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+
+### Delete a Doc [DELETE]
+Delete a single document from RecordsKeeper.
+
+::: note
+#### <i class="fa fa-info"></i> Important
+Please remember that `Delete` will only move the document to the trash, Since the Blockchain store everything immutably you can not delete the document. 
+:::
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "Document deleted successfully",
+                        "request_id": "04e3e71fe04d33371776"
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }    
+
+
+## Document Downloading [/docs/{doc_id}/download?token={token}]
+Download a document using doc_id.
+
++ Parameters
+
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+    + doc_id: `b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d` (required, string) - The doc ID you are downloading
+
+
+### Download Doc [GET]
+Download a single document from RecordsKeeper. 
+
+:::note
+Please note that response type will depend upon the type of document being downloaded. For example for PNG files it will be **image/png** and for PDF it will be **application/pdf** etc.
+:::
+
++ Response 200 (image/png)
+    On success below response header will be returned with the original file.
+    + Headers
+
+                        Accept-Ranges: bytes
+                        Cache-Control: public
+                        Connection: Keep-Alive
+                        Content-Disposition: attachment; filename="1-114423840.png"
+                        Content-Length: 153317
+                        Date: Sat, 05 Nov 2016 13:21:11 GMT
+                        Keep-Alive: timeout=5, max=100
+                        Last-Modified: Sat, 05 Nov 2016 07:02:53 GMT
+                        Server: Apache/2.4.7 (Ubuntu)
+                        Vary: Authorization
+                        X-RateLimit-Limit: 60
+                        X-RateLimit-Remaining: 58
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+
+## Document Sharing [/docs/{doc_id}/share?token={token}&email={email_id}]
+Share a document using doc_id & email_id of the receiver.
+
++ Parameters
+
+    + doc_id: `b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d` (required, string) - The doc ID
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+    + email_id: `bob@marley.com` (required, string) - Email id of the receiver
+
+
+### Share Doc [PUT]
+Share a single document from RecordsKeeper to other user.
+
+::: note
+#### <i class="fa fa-info"></i> Important
+Please remember that `share` will give the access of the docuemnt to the mentioned user indefinitly, Since the Blockchain store everything immutably you can not unshare or revoke the access of the document. 
+:::
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "Document shared successfully",
+                        "request_id": "04e3e71fe04d33371776"
+                        },
+                        "data": {
+                                "sharing_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d",
+                                "doc_signature": "61f900caafe099840d158fcaf4e48d32"
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+## Document Verifying [/docs/{doc_id}/verify?token={token}&signature={signature}]
+Share a document using doc_id.
+
++ Parameters
+
+    + doc_id: `b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d` (required, string) - The doc ID
+    + token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2Nlc3NfdG9rZW4iLCJpYXQiOjE0NzgzMjU4ODMsImV4cCI6MTQ3ODMyOTQ4MywibmJmIjoxNDc4MzI1ODgzLCJqdGkiOiI4ODk2YTA5NzI4YjM1ODA1YjM5NGI3MTBhNDZiOTMyNCJ9.Q_rLkYj7YHAZRklOQjPAbm53aYDg01kS-9Y0y3R98VA` (required, string) - Currently valid Token
+    + signature: `IUzI1NiJ9.eyJzdWIiOjEsImlzcyI6JzdWIiOjEsImlzcyI6Imh0dHBzOlwvXC9yZWNvcmRza2VlcGVyLmNvXC9hcGlcL3YxXC9hY2NImh0dHBzOlwvXC9yZWNvc` (required, string) - SHA256 Digest of the file being verified
+
+
+### Verify Doc [PUT]
+Verify a single document from RecordsKeeper Blockchain.
+
++ Request Success (application/json)
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "Document verified successfully",
+                        "request_id": "04e3e71fe04d33371776"
+                        },
+                        "data": {
+                                "verification_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d"
+                                "verification_status": "passed"
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
++ Request Failure (application/json)
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+                {
+                        "meta": {
+                        "status_code": 1200,
+                        "status": "success",
+                        "message": "Document verified successfully",
+                        "request_id": "04e3e71fe04d33371776"
+                        },
+                        "data": {
+                                "verification_id": "b2c121d5ba156c15a6fe546e747e22f6e6bbb60e9b87e48e21abb9e0d3e7413e6298f15f9000781fb404bd10b0d72f5a7a8d"
+                                "verification_status": "failed"
+                        }
+                }
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+
+
+
+
+# Group Users
+Using this end point you can perform actions on your own account.
+
+## User Details [/users/{user_id}?token={token}]
+Perform operations on authorized user.
+
++ Parameters
+
+    + user_id: me (required, string) - user's email id or just use me to get your own details
+    + token: a039b78bc9c4c32a4f2502c56f94f1bacab3454dce381247aa86e198a78e47a77361259aab23f21a0239536e081f44183884 (required, string) - A valid token of the user
+
+### Get user info [GET]
+Get a details of your own account.
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59    
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "User details fetched successfully",
+                                "request_id": "5d01e348bc6bf3d9c697"
+                        },
+                        "data": {
+                                "user_id": "9ff1324e21a976fd947dce3370b1ad134cbd7f48bf220728f910a4acf5e61d222c0c6e99f582d372249f3b67577a96d26479",
+                                "first_name": "Alice",
+                                "last_name": "Miller",
+                                "email_id": "alice@miller.com",
+                                "profile_image": "https://www.gravatar.com/avatar/d61cd032c550aas90c4df71aa9bea5fa",
+                                "joined_at": 1478046706,
+                                "updated_at": 1478321960,
+                                "documents_count": 3,
+                                "documents_in_trash": 2,
+                                "status": "active",
+                                "plan": "free",
+                                "space_used_in_bytes": 513521,
+                                "space_available_in_bytes": 2146970127,
+                                "public_key": "g3LVEbFN9cr2yUGwLjN2ou36ollPQ1lKu/NAZwQaNJhbhYkTUTdn0nO6GlPMDB38gfjTHTa+etYq"
+                        }
+                }
+
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 402 (application/json)
+    If supplied doc_id is invalid or user don't have permission to access the document, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1402,
+                        "status": "error",
+                        "message": "You are not authorized to access this document",
+                        "request_id": "d12c6f12b58d57c8f065"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+                
+### Update user info [PUT]
+Update details of your own account.
+
+:::warning
+Please note that user can only update first_name, last_name & profile_image of his own account using this endpoint. If you want to update your own email id please drop us an email at hi@recordskeeper.co.  
+:::
+
++ Request (application/json)
+
+    + Body
+
+                {
+                        "first_name": "Alice",
+                        "last_name": "Miller",
+                        "profile_image": "https://www.gravatar.com/avatar/d61cd032caasaas90c4df71aa9bea5fa"
+                }
+
++ Response 200 (application/json)
+    On success below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59    
+    + Body
+
+                {
+                        "meta": {
+                                "status_code": 1200,
+                                "status": "success",
+                                "message": "User details updated successfully",
+                                "request_id": "5d01e348bc6bf3d9c697"
+                        },
+                        "data": {
+                                "user_id": "9ff1324e21a976fd947dce3370b1ad134cbd7f48bf220728f910a4acf5e61d222c0c6e99f582d372249f3b67577a96d26479",
+                                "first_name": "Alice",
+                                "last_name": "Miller",
+                                "email_id": "alice@miller.com",
+                                "profile_image": "https://www.gravatar.com/avatar/d61cd032caasaas90c4df71aa9bea5fa",
+                                "joined_at": 1478046706,
+                                "updated_at": 1478321960,
+                                "documents_count": 3,
+                                "documents_in_trash": 2,
+                                "status": "active",
+                                "plan": "free",
+                                "space_used_in_bytes": 513521,
+                                "space_available_in_bytes": 2146970127,
+                                "public_key": "g3LVEbFN9cr2yUGwLjN2ou36ollPQ1lKu/NAZwQaNJhbhYkTUTdn0nO6GlPMDB38gfjTHTa+etYq"
+                        }
+                }
+
+
++ Response 401 (application/json)
+    If token has expired, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1401,
+                        "status": "error",
+                        "message": "Token has expired",
+                        "request_id": "c6ad4c358cb6a5ff72cf"
+                }
+            }
+
++ Response 403 (application/json)
+    If token have incorrect value, below response will be returned. Please refer to the json below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1403,
+                        "status": "error",
+                        "message": "Token is invalid",
+                        "request_id": "57ecd476a7e5803b5025"
+                }
+            }
+
++ Response 500 (application/json)
+    On server error, below response will be returned. Please refer to the json response below.
+    + Headers
+
+                Cache-Control: no-cache
+                Connection: Keep-Alive
+                Content-Length: 500
+                Date: Sat, 05 Nov 2016 05:40:28 GMT
+                Keep-Alive: timeout=5, max=100
+                Server: Apache/2.4.7 (Ubuntu)
+                X-RateLimit-Limit: 60
+                X-RateLimit-Remaining: 59
+
+    + Body
+
+            {
+                "meta": {
+                        "status_code": 1500,
+                        "status": "error",
+                        "message": "Internal Server Error",
+                        "request_id": "11ee63a5c34c37e7d530"
+                }
+            }            
+                                
